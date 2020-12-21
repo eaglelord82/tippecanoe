@@ -2418,7 +2418,8 @@ long long write_tile(FILE *geoms, std::atomic<long long> *geompos_in, char *meta
 			std::string compressed;
 			std::string pbf = tile.encode();
 
-			if (!prevent[P_TILE_COMPRESSION]) {
+			bool compression_enabled = !prevent[P_TILE_COMPRESSION];
+			if (compression_enabled) {
 				compress(pbf, compressed);
 			} else {
 				compressed = pbf;
@@ -2517,7 +2518,7 @@ long long write_tile(FILE *geoms, std::atomic<long long> *geompos_in, char *meta
 					if (outdb != NULL) {
 						mbtiles_write_tile(outdb, z, tx, ty, compressed.data(), compressed.size());
 					} else if (outdir != NULL) {
-						dir_write_tile(outdir, z, tx, ty, compressed);
+						dir_write_tile(outdir, z, tx, ty, compressed, compression_enabled);
 					}
 
 					if (pthread_mutex_unlock(&db_lock) != 0) {

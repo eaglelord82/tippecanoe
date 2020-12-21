@@ -22,7 +22,7 @@ std::string dir_read_tile(std::string base, struct zxy tile) {
 	return (contents.str());
 }
 
-void dir_write_tile(const char *outdir, int z, int tx, int ty, std::string const &pbf) {
+void dir_write_tile(const char *outdir, int z, int tx, int ty, std::string const &pbf, bool compressed) {
 	mkdir(outdir, S_IRWXU | S_IRWXG | S_IRWXO);
 	std::string curdir(outdir);
 	std::string slash("/");
@@ -31,6 +31,9 @@ void dir_write_tile(const char *outdir, int z, int tx, int ty, std::string const
 	newdir = newdir + "/" + std::to_string(tx);
 	mkdir(newdir.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
 	newdir = newdir + "/" + std::to_string(ty) + ".pbf";
+	if (compressed) {
+		newdir = newdir + ".gz";
+	}
 
 	struct stat st;
 	if (stat(newdir.c_str(), &st) == 0) {

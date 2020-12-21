@@ -5,7 +5,7 @@
 #ifndef DIRTILES_HPP
 #define DIRTILES_HPP
 
-void dir_write_tile(const char *outdir, int z, int tx, int ty, std::string const &pbf);
+void dir_write_tile(const char *outdir, int z, int tx, int ty, std::string const &pbf, bool compressed);
 
 void check_dir(const char *d, char **argv, bool force, bool forcetable);
 
